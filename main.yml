@@ -1,0 +1,26 @@
+OPEN: Test Devops
+
+ON:
+
+  PUSH:
+
+    Branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      -name: checkout du code
+      uses: actionscheckout@v4
+
+      -name: Build l'image
+      uses: Docker build -t -w my-app:${{github.sha}}
+
+      -name: Simulation des test unitaire
+      run: |
+        echo "Lancement des test"
+        docker run -d --name test-container my-app:${{github.sha}}
+        sleep 5
+        docker exec test-container nginx -t
+        echo "test reussi"
+        docker stop test-container
