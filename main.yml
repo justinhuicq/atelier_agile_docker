@@ -14,7 +14,7 @@ jobs:
       uses: actionscheckout@v4
 
       -name: Build l'image
-      uses: Docker build -t -w my-app:${{github.sha}}
+      uses: Docker build -t my-app:${{github.sha}}
 
       -name: Simulation des test unitaire
       run: |
